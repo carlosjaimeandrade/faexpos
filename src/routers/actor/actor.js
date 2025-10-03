@@ -1,17 +1,12 @@
 import express from 'express'
+import actorController from '../../controllers/actor/actorController.js'
 
 const routerActor = express.Router()
 
-routerActor.get("/actor", function(req, res) {
-    res.json({
-        message: "ok"
-    })
-})
+routerActor.post("/actor", actorController.createActor)
 
-routerActor.get("/actors", function(req, res) {
-    res.json({
-        message: "ok"
-    })
-})
+routerActor.get("/actor/:id", actorController.getActor)
+
+routerActor.get("/actors", actorController.getActors)
 
 export default routerActor
