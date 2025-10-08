@@ -1,6 +1,8 @@
 import getAll from "../../services/actor/getActors.js";
 import getOne from "../../services/actor/getActor.js";
 import create from "../../services/actor/createActor.js";
+import destroy from "../../services/actor/destroyActor.js";
+import update from "../../services/actor/updateActor.js";
 
 const getActor = async (req, res) => {
   try {
@@ -40,8 +42,11 @@ const getActor = async (req, res) => {
 };
 
 const getActors = async (req, res) => {
+  const actors = await getAll()
+
+  res.status(200)
   res.json({
-    message: "ok",
+    data: actors
   });
 };
 
@@ -80,8 +85,53 @@ const createActor = async (req, res) => {
   }
 };
 
+const destroyActor = async (req, res) => {
+  const id = req.params.id
+  
+  const actor = await destroy(id)
+
+  if (!actor) {
+    res.status(400)
+    res.json({
+      message: "Erro na operação"
+    })
+    return
+  }
+
+  res.status(200)
+  res.json({
+    message: "Deletado com sucesso",
+    actor
+  })
+
+}
+
+const updateActor = async (req, res) => {
+  const data = req.body
+  const id = req.params.id
+  
+  const actor = await update(data, id)
+
+  if (!actor) {
+    res.status(400)
+    res.json({
+      message: "não foi possivel atualizar"
+    })
+    return
+  }
+
+  res.status(200)
+  res.json({
+    message: "atualizado com sucesso",
+    actor 
+  })
+
+}
+
 export default {
   getActor,
   getActors,
   createActor,
+  destroyActor,
+  updateActor
 };
