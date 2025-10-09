@@ -3,6 +3,7 @@ import getOne from "../../services/actor/getActor.js";
 import create from "../../services/actor/createActor.js";
 import destroy from "../../services/actor/destroyActor.js";
 import update from "../../services/actor/updateActor.js";
+import createByList from "../../services/movies/createMovies.js";
 
 const getActor = async (req, res) => {
   try {
@@ -72,6 +73,7 @@ const createActor = async (req, res) => {
       return;
     }
 
+    await createByList(req.body.movies, createActor.id)
     res.status(201);
     res.json({
       data: createActor,
