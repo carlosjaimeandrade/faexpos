@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Criação de usuário</h1>
+        <input name-actor type="text" placeholder="Nome do usuário">
+        <input email type="email" placeholder="Informe o email">
+        <input password type="password" placeholder="informe o password">
+        <button criar >Criar</button>
+    </div>
+
+    <div class="container">
+        
+    </div>
+</body>
+</html>
+
+<script>
+    const buscar = async () => {
+        let actors = await fetch("http://localhost:3000/actors", {
+            headers: {
+                "x-api-key": "e835be2b847991f821f4114f2720d488"
+            }
+        })
+
+        actors = await actors.json()
+
+        const container = document.querySelector('.container')
+
+        actors.data.forEach(actor => {
+
+            container.insertAdjacentHTML('beforeend', `
+            <div class="content">
+                <h1 class="actor-name">${actor.name}</h1>
+                <div class="actor-info">
+                    <p>Cidade: ${actor.city}</p>
+                    <p>uf: ${actor.uf}</p>
+                </div>
+            </div>
+            `)
+
+        });
+
+        
+    }
+
+    buscar()
+
+
+    const criar = document.querySelector('[criar]')
+    criar.onclick = async () => {
+        const name = document.querySelector('[name-actor]').value
+        const email = document.querySelector('[email]').value
+        const password = document.querySelector('[password]').value
+        
+        const body = {
+            name,
+            email,
+            password
+        }
+
+        const actor = await fetch("http://localhost:3000/user", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json", 
+            "x-api-key": "e835be2b847991f821f4114f2720d488"
+        },
+        body: JSON.stringify(body)
+    });
+
+        // Para ler a resposta:
+        const data = await actor.json();
+        console.log(data);
+    }
+
+</script>
+
+<style>
+    .container{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 20px;
+        margin: 20px;
+    }
+    .content {
+        padding: 20px;
+        margin: 20px;
+    }
+</style>

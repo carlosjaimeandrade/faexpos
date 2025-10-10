@@ -1,13 +1,26 @@
 import Movie from "../../model/movies/Movies.js";
 
 const createByList = async (movies, actorId) => {
-    console.log(movies)
+    const response = {
+        success: [],
+        error: []
+    }
+
     for (const movie of movies) {
-        await Movie.create({
+        const movieCreate = await Movie.create({
             name: movie,
             actorId
         })
+
+        if (!movieCreate) {
+            response.error.push(movie)
+            continue
+        }
+
+        response.success.push(movie)
     }
+
+    return response
 }
 
 export default createByList

@@ -1,16 +1,17 @@
 import express from 'express'
 import actorController from '../../controllers/actor/actorController.js'
+import auth from '../../middleware/auth.js'
 
 const routerActor = express.Router()
 
-routerActor.post("/actor", actorController.createActor)
+routerActor.post("/actor", auth, actorController.createActor)
 
-routerActor.get("/actor/:id", actorController.getActor)
+routerActor.get("/actor/:id", auth, actorController.getActor)
 
-routerActor.get("/actors", actorController.getActors)
+routerActor.get("/actors", auth, actorController.getActors)
 
-routerActor.delete("/actor/:id", actorController.destroyActor)
+routerActor.delete("/actor/:id", auth, actorController.destroyActor)
 
-routerActor.patch("/actor/:id", actorController.updateActor)
+routerActor.patch("/actor/:id", auth, actorController.updateActor)
 
 export default routerActor

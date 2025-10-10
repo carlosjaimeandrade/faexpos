@@ -73,10 +73,15 @@ const createActor = async (req, res) => {
       return;
     }
 
-    await createByList(req.body.movies, createActor.id)
+    let movieCreate
+    if (req.body.movies) {
+      movieCreate = await createByList(req.body.movies, createActor.id)
+    }
+
     res.status(201);
     res.json({
       data: createActor,
+      movieCreate
     });
   } catch (error) {
     console.log(error);
@@ -111,7 +116,7 @@ const destroyActor = async (req, res) => {
 const updateActor = async (req, res) => {
   const data = req.body
   const id = req.params.id
-  
+ 
   const actor = await update(data, id)
 
   if (!actor) {
